@@ -19,12 +19,14 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatRippleModule } from '@angular/material/core';
 import { ClockWidgetComponent } from './shared/components/widgets/clock-widget/clock-widget.component';
+import { HandleComponent } from './shared/components/handle/handle.component';
 @NgModule({
   declarations: [
     AppComponent,
     HomeDashboardComponent,
     SidenavLinksComponent,
     ClockWidgetComponent,
+    HandleComponent,
   ],
   imports: [
     BrowserModule,

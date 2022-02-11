@@ -1,0 +1,21 @@
+@import './global-variables.scss';
+
+::ng-deep {
+  .component-container {
+    background-color: $component-bg-color;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.2) 3px 3px 7px 5px;
+  }
+  .component-handle {
+    background-color: $component-handle-bg-color;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    cursor: move;
+  }
+  .exit-button {
+    min-width: unset !important;
+    line-height: unset !important;
+    padding: 5px 10px !important;
+    font-size: large;
+  }
+}

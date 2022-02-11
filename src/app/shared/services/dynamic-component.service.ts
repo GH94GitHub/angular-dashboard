@@ -84,12 +84,24 @@ export class DynamicComponentService {
    */
   private addProperties(componentRef: ComponentRef<any>, args: CreationArgs): void {
 
-    const nativeElement = componentRef.location.nativeElement;
+    const nativeElement = componentRef.location.nativeElement.querySelector('.container');
+
+    // console.log('~~ Inside addProperties ~~');
+    // console.log()
+    // console.log('~~ Native Element ~~');
+    // console.log(nativeElement);
+    // console.log()
+    // console.log('~~ Passed-in Args ~~');
+    // console.log(args);
+
     try {
 
       if (args.classes) args.classes.forEach( className => this.renderer.addClass(nativeElement, className));
       if (args.attributes) args.attributes.forEach(
         attribute => this.renderer.setAttribute(nativeElement, attribute.name, attribute.value, attribute.namespace)
+      );
+      if (args.properties) args.properties.forEach(
+        property => this.renderer.setProperty(nativeElement, property.name, property.value)
       );
     }
     catch(e) {

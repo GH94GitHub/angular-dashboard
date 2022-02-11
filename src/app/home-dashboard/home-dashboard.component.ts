@@ -1,6 +1,7 @@
 import { Component, ViewChild, ViewContainerRef } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Control } from '../shared/interfaces/control.interface';
+import { CreationArgs } from '../shared/interfaces/creation-args.interface';
 import { DynamicComponentService } from '../shared/services/dynamic-component.service';
 
 @Component({
@@ -17,6 +18,25 @@ export class HomeDashboardComponent {
 
    insertLocation!: ViewContainerRef;
   constructor(private dynamicComponentService: DynamicComponentService) { }
+
+  // args: CreationArgs = {
+  //   attributes: [
+  //     {
+  //       name: 'cdkDrag',
+  //       value: 'true'
+  //     }
+  //   ],
+  //   properties: [
+  //     {
+  //       name: '[cdkDragBoundary]',
+  //       value: '.dashboard-container'
+  //     },
+  //     {
+  //       name: '[ngStyles]',
+  //       value: 'styles'
+  //     }
+  //   ]
+  // }
 
   createComponent(component: Control):void {
     this.dynamicComponentService.insertComponentDynamically(

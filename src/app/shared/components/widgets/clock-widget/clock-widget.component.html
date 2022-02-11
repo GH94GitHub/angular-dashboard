@@ -1,3 +1,12 @@
-<div class="container">
-  {{time}} <button (click)="destroySelf()">Destroy this component</button>
+<div
+  cdkDrag
+  cdkDragBoundary=".dashboard-container"
+  class="component-container"
+  [ngStyle]="styles"
+  fxLayout="column"
+  >
+  <app-handle (exit)="destroySelf()" cdkDragHandle>Clock</app-handle>
+  <div class="main-content">
+    <h2 style="text-align: center;">{{ time }}</h2>
+  </div>
 </div>

@@ -10,6 +10,12 @@ import { DynamicComponent } from '../../../interfaces/dynamic-component.interfac
 })
 export class ClockWidgetComponent extends DynamicComponent implements OnInit {
 
+  styles = {
+    'min-width': '200px',
+    'min-height': '50px',
+    'width': 'fit-content',
+    'height': 'fit-content'
+  }
   time: string = new Date().toLocaleTimeString();
   timeStream$: Observable<any> = interval(1000).pipe(
     switchMap( () => of(new Date().toLocaleTimeString()))
