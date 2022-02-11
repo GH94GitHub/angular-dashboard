@@ -1,7 +1,6 @@
-import { Component, ViewChild, ViewContainerRef } from '@angular/core';
+import { AfterViewInit, Component, Renderer2, RendererFactory2, ViewChild, ViewContainerRef } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Control } from '../shared/interfaces/control.interface';
-import { CreationArgs } from '../shared/interfaces/creation-args.interface';
 import { DynamicComponentService } from '../shared/services/dynamic-component.service';
 
 @Component({
@@ -9,34 +8,32 @@ import { DynamicComponentService } from '../shared/services/dynamic-component.se
   templateUrl: './home-dashboard.component.html',
   styleUrls: ['./home-dashboard.component.scss']
 })
-export class HomeDashboardComponent {
+export class HomeDashboardComponent implements AfterViewInit{
 
   @ViewChild('sideNav') sideNav!: MatSidenav;
-
   @ViewChild('insertLocation', {read: ViewContainerRef})
    componentInsertLocation!: ViewContainerRef;
 
    insertLocation!: ViewContainerRef;
-  constructor(private dynamicComponentService: DynamicComponentService) { }
+   renderer: Renderer2;
 
-  // args: CreationArgs = {
-  //   attributes: [
-  //     {
-  //       name: 'cdkDrag',
-  //       value: 'true'
-  //     }
-  //   ],
-  //   properties: [
-  //     {
-  //       name: '[cdkDragBoundary]',
-  //       value: '.dashboard-container'
-  //     },
-  //     {
-  //       name: '[ngStyles]',
-  //       value: 'styles'
-  //     }
-  //   ]
-  // }
+  constructor(
+    private dynamicComponentService: DynamicComponentService,
+    private rendererFactory: RendererFactory2
+    ) {
+    this.renderer = rendererFactory.createRenderer(null, null);
+  }
+
+  ngAfterViewInit(): void {
+
+    const sidenavOpener = this.sideNav._content.nativeElement.querySelector('.sidenav-opener');
+    this.sideNav.openedStart.subscribe( () => {
+      this.renderer.addClass(sidenavOpener, 'opened');
+    });
+    this.sideNav.closedStart.subscribe( () => {
+      this.renderer.removeClass(sidenavOpener, 'opened');
+    });
+  }
 
   createComponent(component: Control):void {
     this.dynamicComponentService.insertComponentDynamically(
@@ -46,6 +43,6 @@ export class HomeDashboardComponent {
   }
 
   openNav(): void {
-    this.sideNav.open()
+    this.sideNav.toggle();
   }
 }

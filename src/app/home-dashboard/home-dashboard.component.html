@@ -1,10 +1,14 @@
 <mat-sidenav-container>
   <mat-sidenav mode="over" #sideNav class="sidenav" position="end" opened>
-    <app-sidenav-links class="sidenav-links" [sideNav]="sideNav" (createComponent)="createComponent($event)" ></app-sidenav-links>
+    <div class="sidenav-opener opened" (click)="openNav()">
+      <div class="arrow">
+        <mat-icon>arrow_back</mat-icon>
+      </div>
+    </div>
+    <app-sidenav-links class="sidenav-links" [sideNav]="sideNav" (createComponent)="createComponent($event)"></app-sidenav-links>
   </mat-sidenav>
   <mat-sidenav-content>
     <div class="dashboard-container">
-      <button (click)="openNav()">Open Sidenav</button>
       <div #insertLocation></div>
     </div>
   </mat-sidenav-content>
