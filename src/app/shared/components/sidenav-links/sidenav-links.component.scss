@@ -1,0 +1,61 @@
+@import '../../../global-variables.scss';
+@import '~@angular/material/theming';
+
+$whiteTranslucent20-bg: rgba(255, 255, 255, .2);
+$whiteTranslucent60-bg: rgba(255, 255, 255, .2);
+
+mat-expansion-panel {
+  background-color: transparent;
+  box-shadow: none !important;
+
+  .mat-expansion-panel-header {
+    font-size: larger;
+
+    &:not(.mat-expanded) {
+      background-color: inherit;
+    }
+
+    &.mat-expanded {
+      background-color: $whiteTranslucent60-bg;
+    }
+  }
+
+
+
+  ul.link-group {
+    padding: 0;
+    margin: 0;
+
+    li {
+      cursor: pointer;
+      list-style-type: none;
+
+      &:hover {
+        background-color: $on-hover-bg-color;
+      }
+
+      button {
+        cursor: pointer;
+        padding: 10px 0px;
+        border: none;
+        background-color: inherit;
+        text-align: start;
+        font-size: 18px;
+        font-weight: 400;
+        width: 100%;
+        height: 100%;
+        text-indent: 20%;
+      }
+    }
+  }
+
+
+}
+
+:host ::ng-deep {
+
+  .mat-expansion-panel-body {
+    padding: 0;
+
+  }
+}

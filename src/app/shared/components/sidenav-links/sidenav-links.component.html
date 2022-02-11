@@ -1,0 +1,12 @@
+<mat-accordion>
+  <mat-expansion-panel *ngFor="let group of componentGroup | keyvalue">
+    <mat-expansion-panel-header>
+      {{ group.key + '' | titlecase }}
+    </mat-expansion-panel-header>
+    <ul class="link-group">
+      <li *ngFor="let component of toArray(group.value)">
+        <button matRipple [matRippleColor]="rippleColor" (click)="emitCreateComponent(component)">{{component.componentName}}</button>
+      </li>
+    </ul>
+  </mat-expansion-panel>
+</mat-accordion>

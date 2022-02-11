@@ -1,0 +1,29 @@
+@import '../global-variables.scss';
+
+.mat-drawer-container {
+  background: transparent;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+
+  .sidenav {
+    background-color: $secondary-color;
+    width: 400px;
+    max-width: 33%;
+
+    .sidenav-links {
+      margin: auto;
+      width: 100%;
+    }
+  }
+
+}
+
+:host ::ng-deep {
+
+  .mat-drawer-inner-container {
+    display: flex !important;
+  }
+}
