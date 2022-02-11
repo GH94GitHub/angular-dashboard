@@ -26,12 +26,12 @@ export class DynamicComponentService {
     locationToInsert: ViewContainerRef,
     component: Control,
     args?: CreationArgs
-    ): ComponentRef<any> {
+    ): ComponentRef<any> | null {
 
       // Check to see if component already exists
       for(let i = 0; i < this.existingComponents.length; i++) {
         if (this.existingComponents[i].name === component.componentName )
-          return this.existingComponents[i].elRef
+          return null;
       }
 
       const componentRef: ComponentRef<any> = locationToInsert.createComponent(component.componentType);

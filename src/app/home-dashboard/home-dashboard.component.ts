@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Renderer2, RendererFactory2, ViewChild, ViewContainerRef } from '@angular/core';
+import { AfterViewInit, Component, ComponentRef, Renderer2, RendererFactory2, ViewChild, ViewContainerRef } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Control } from '../shared/interfaces/control.interface';
 import { DynamicComponentService } from '../shared/services/dynamic-component.service';
@@ -36,10 +36,12 @@ export class HomeDashboardComponent implements AfterViewInit{
   }
 
   createComponent(component: Control):void {
-    this.dynamicComponentService.insertComponentDynamically(
+    const componentRef: ComponentRef<any> | null = this.dynamicComponentService.insertComponentDynamically(
       this.componentInsertLocation,
       component
     );
+
+    if(componentRef) this.sideNav.close();
   }
 
   openNav(): void {
