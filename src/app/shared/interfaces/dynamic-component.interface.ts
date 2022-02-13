@@ -28,7 +28,9 @@ export abstract class DynamicComponent{
         $event.target.innerText === "X"
       ) {}
       else
-        this.dynamicComponentService.moveToTop(this.viewRef);
+        setTimeout(() => {
+          this.dynamicComponentService.moveToTop(this.viewRef);
+        }, 100);
   }
 
   /**
