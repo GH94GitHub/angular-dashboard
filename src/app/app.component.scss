@@ -5,6 +5,7 @@
     background-color: $component-bg-color;
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.2) 3px 3px 7px 5px;
+    overflow-y: auto;
   }
   .component-handle {
     background-color: $component-handle-bg-color;
