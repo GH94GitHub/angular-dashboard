@@ -14,8 +14,7 @@ export class HomeDashboardComponent implements AfterViewInit{
   @ViewChild('insertLocation', {read: ViewContainerRef})
    componentInsertLocation!: ViewContainerRef;
 
-   insertLocation!: ViewContainerRef;
-   renderer: Renderer2;
+  renderer: Renderer2;
 
   constructor(
     private dynamicComponentService: DynamicComponentService,
