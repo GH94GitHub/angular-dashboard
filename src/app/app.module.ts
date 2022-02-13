@@ -1,15 +1,22 @@
+/* Modules */
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+
+/* Components */
 import { AppComponent } from './app.component';
 import { HomeDashboardComponent } from './home-dashboard/home-dashboard.component';
 import { SidenavLinksComponent } from './shared/components/sidenav-links/sidenav-links.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ClockWidgetComponent } from './shared/components/widgets/clock-widget/clock-widget.component';
+import { HandleComponent } from './shared/components/handle/handle.component';
+import { WeatherWidgetComponent } from './shared/components/widgets/weather-widget/weather-widget.component';
 
-import { DragDropModule } from '@angular/cdk/drag-drop';
 /* Material UI */
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
@@ -18,9 +25,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatRippleModule } from '@angular/material/core';
-import { ClockWidgetComponent } from './shared/components/widgets/clock-widget/clock-widget.component';
-import { HandleComponent } from './shared/components/handle/handle.component';
-import { WeatherWidgetComponent } from './shared/components/widgets/weather-widget/weather-widget.component';
+
+/* PrimeNG UI*/
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,9 +52,11 @@ import { WeatherWidgetComponent } from './shared/components/widgets/weather-widg
     MatIconModule,
     MatSidenavModule,
     MatExpansionModule,
-    MatRippleModule
+    MatRippleModule,
+    ToastModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
