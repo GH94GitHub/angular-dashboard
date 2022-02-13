@@ -13,6 +13,9 @@
       <span>Feels like {{ weather.temp.feelsLike }}&deg;F</span>
       <span>Wind: {{ weather.wind.speed }}mph {{ weather.wind.direction }}</span>
     </div>
+    <button mat-button class="refresh-button" (click)="refreshWeather()">
+      <mat-icon>refresh</mat-icon>
+    </button>
   </div>
   <ng-template #permissionDenied>
 

@@ -54,7 +54,6 @@ export class WeatherWidgetComponent extends DynamicComponent implements OnInit {
       appId: '3d26844206c4281fd979c5522632ee31'
     }
 
-    console.log(this);
     this.http.get('https://api.openweathermap.org/data/2.5/weather', {
       params: {
         lat: params.latitude,
@@ -84,7 +83,7 @@ export class WeatherWidgetComponent extends DynamicComponent implements OnInit {
           direction: windDirection
         }
       }
-
+      console.log(this.weather);
       this.permissionGranted = true;
     })
 
@@ -102,6 +101,10 @@ export class WeatherWidgetComponent extends DynamicComponent implements OnInit {
     }
     this.pushError(error);
     this.permissionGranted = false;
+  }
+
+  refreshWeather(): void {
+    window.navigator.geolocation.getCurrentPosition(this.geoSuccess.bind(this), this.geoFail.bind(this));
   }
 
   formatHHMM(date: Date) {
