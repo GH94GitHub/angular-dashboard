@@ -20,6 +20,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatRippleModule } from '@angular/material/core';
 import { ClockWidgetComponent } from './shared/components/widgets/clock-widget/clock-widget.component';
 import { HandleComponent } from './shared/components/handle/handle.component';
+import { WeatherWidgetComponent } from './shared/components/widgets/weather-widget/weather-widget.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,6 +28,7 @@ import { HandleComponent } from './shared/components/handle/handle.component';
     SidenavLinksComponent,
     ClockWidgetComponent,
     HandleComponent,
+    WeatherWidgetComponent,
   ],
   imports: [
     BrowserModule,

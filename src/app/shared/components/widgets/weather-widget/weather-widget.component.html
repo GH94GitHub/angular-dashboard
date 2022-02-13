@@ -1,0 +1,9 @@
+<div
+  cdkDrag
+  cdkDragBoundary=".dashboard-container"
+  class="component-container"
+  [ngStyle]="styles"
+  >
+  <app-handle (exit)="destroySelf()" cdkDragHandle>Weather</app-handle>
+  <p>weather-widget works!</p>
+</div>
