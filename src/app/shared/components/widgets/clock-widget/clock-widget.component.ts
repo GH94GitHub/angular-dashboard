@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, Inject, OnInit, ViewContainerRef } from '@angular/core';
+import { MessageService } from 'primeng/api';
 import { Observable, interval, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { DynamicComponent } from '../../../interfaces/dynamic-component.interface';
@@ -11,8 +12,6 @@ import { DynamicComponent } from '../../../interfaces/dynamic-component.interfac
 export class ClockWidgetComponent extends DynamicComponent implements OnInit {
 
   styles = {
-    'min-width': '200px',
-    'min-height': '50px',
     'width': 'fit-content',
     'height': 'fit-content'
   }
@@ -21,8 +20,11 @@ export class ClockWidgetComponent extends DynamicComponent implements OnInit {
     switchMap( () => of(new Date().toLocaleTimeString()))
   );
 
-  constructor(private viewContainer: ViewContainerRef) {
-    super();
+  constructor(
+    private viewContainer: ViewContainerRef,
+    @Inject(MessageService) messageService: MessageService
+  ) {
+    super(messageService);
   }
 
   ngOnInit(): void {
