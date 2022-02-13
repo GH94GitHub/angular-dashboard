@@ -1,8 +1,11 @@
-import { ComponentRef } from "@angular/core";
+import { Component, ComponentRef, HostListener } from "@angular/core";
 import { MessageService } from "primeng/api";
+import { DynamicComponentService } from "../services/dynamic-component.service";
 
-
-export abstract class DynamicComponent {
+@Component({
+  template: ''
+})
+export abstract class DynamicComponent{
   viewRef!: ComponentRef<any>;
   abstract styles: {
     'max-height'?: string,
@@ -11,8 +14,22 @@ export abstract class DynamicComponent {
     'width': string
   };
   constructor(
-    protected messageService: MessageService
+    protected messageService: MessageService,
+    protected dynamicComponentService: DynamicComponentService
   ) {}
+
+  @HostListener('mousedown', ['$event']) onClick($event: any): void {
+    // If handle button is clicked emit the event
+      if (
+        ($event.target.className.includes('mat-button-wrapper') &&
+        $event.path[1].className.includes('exit-button') ||
+        $event.target.className.includes('exit-button'))
+        &&
+        $event.target.innerText === "X"
+      ) {}
+      else
+        this.dynamicComponentService.moveToTop(this.viewRef);
+  }
 
   /**
    * Called by a component or the view to destroy itself
@@ -22,6 +39,10 @@ export abstract class DynamicComponent {
     this.viewRef.destroy();
   }
 
+  /**
+   * Sends a toast to the main screen
+   * @param errorObj Contains information about the toast to send
+   */
   pushError(errorObj: PrimeNgError): void {
     this.messageService.add(errorObj);
   }

@@ -35,6 +35,8 @@ export class HomeDashboardComponent implements AfterViewInit{
   }
 
   createComponent(component: Control):void {
+    console.log('home-dashboard. Component to create');
+    console.log(component);
     const componentRef: ComponentRef<any> | null = this.dynamicComponentService.insertComponentDynamically(
       this.componentInsertLocation,
       component

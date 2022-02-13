@@ -1,7 +1,9 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { DynamicComponent } from '../../../interfaces/dynamic-component.interface';
+import { HttpClient } from '@angular/common/http';
+import { Component, Inject, OnInit } from '@angular/core';
+import { DynamicComponent, PrimeNgError } from '../../../interfaces/dynamic-component.interface';
 import { Weather } from '../../../interfaces/weather.interface';
+import { MessageService } from 'primeng/api';
+import { DynamicComponentService } from '../../../services/dynamic-component.service';
 
 @Component({
   selector: 'app-weather-widget',
@@ -12,19 +14,32 @@ export class WeatherWidgetComponent extends DynamicComponent implements OnInit {
 
   weather: Weather = {} as Weather;
   windDirectionLookup: string[] = ["N","NNE","NE","ENE","E","ESE","SE","SSE","S","SSW","SW","WSW","W","WNW","NW","NNW","N"];
+  permissionGranted: boolean = false;
   styles = {
-
+    'width': 'fit-content',
+    'height': 'fit-content'
   }
 
-  constructor(private http: HttpClient) {
-    super();
+  constructor(
+    private http: HttpClient,
+    @Inject(MessageService) messageService: MessageService,
+    dynamicComponentService: DynamicComponentService
+    ) {
+    super(messageService, dynamicComponentService);
   }
 
   ngOnInit(): void {
     //get geolocation
     if (window.navigator.geolocation)
-      window.navigator.geolocation.getCurrentPosition(this.geoSuccess, this.geoFail);
-    else // let the user know browser doesn't support
+      window.navigator.geolocation.getCurrentPosition(this.geoSuccess.bind(this), this.geoFail.bind(this));
+    else {
+      const error: PrimeNgError = {
+        severity: 'error',
+        summary: 'Location',
+        detail: "Your browser doesn't support geolocation"
+      }
+      this.pushError(error);
+    }
   }
 
   /**
@@ -39,6 +54,7 @@ export class WeatherWidgetComponent extends DynamicComponent implements OnInit {
       appId: '3d26844206c4281fd979c5522632ee31'
     }
 
+    console.log(this);
     this.http.get('https://api.openweathermap.org/data/2.5/weather', {
       params: {
         lat: params.latitude,
@@ -47,29 +63,31 @@ export class WeatherWidgetComponent extends DynamicComponent implements OnInit {
         units: 'imperial'
       }
     }).subscribe( (weatherData: any) => {
-      const windDegrees = weatherData.wind.direction % 360;
-      const directionIndex = windDegrees / 22.5;
+      const windDegrees = Number(weatherData.wind.deg) % 360;
+      const directionIndex = Math.round(windDegrees / 22.5);
       const windDirection = this.windDirectionLookup[directionIndex];
-      //TODO: GET THE WEATHER ICON FROM THE WEATHER CODE (weatherData.weather.icon)
-      //TODO: PUT IMG SRC INTO ICON PROP BELOW
+      const icon = `https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`;
+      const time = new Date(weatherData.dt * 1000);
       //put result inside this.weather
       this.weather = {
         city: weatherData.name,
-        weather: weatherData.weather.main,
-        icon: /*TODO:*/ ,
+        time: this.formatHHMM(time),
+        weather: weatherData.weather[0].main,
+        icon: icon,
         temp: {
-          now: weatherData.main.temp,
-          feelsLike: weatherData.main.feels_like,
-          min: weatherData.main.temp_min,
-          max: weatherData.main.temp_max,
+          now: Math.round(weatherData.main.temp),
+          feelsLike: Math.round(weatherData.main.feels_like),
           humidity: weatherData.main.humidity
         },
         wind: {
-          speed: weatherData.wind.speed,
+          speed: Math.round(weatherData.wind.speed).toString(),
           direction: windDirection
         }
       }
+
+      this.permissionGranted = true;
     })
+
   }
 
   /**
@@ -77,6 +95,18 @@ export class WeatherWidgetComponent extends DynamicComponent implements OnInit {
    * @param data
    */
   geoFail(data: any): void {
+    const error: PrimeNgError = {
+      severity: "warn",
+      summary: 'Weather',
+      detail: 'Failed to access location.'
+    }
+    this.pushError(error);
+    this.permissionGranted = false;
+  }
 
+  formatHHMM(date: Date) {
+    function z(n: number){return (n < 10 ? '0' : '') + n;}
+    var h = date.getHours();
+    return (h !== 12 ? z(h % 12) : '12') + ':' + z(date.getMinutes()) + ' ' + (h<12 ? 'AM' : 'PM');
   }
 }

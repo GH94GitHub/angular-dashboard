@@ -1,4 +1,4 @@
-import { Component, ComponentRef, Injectable, Renderer2, RendererFactory2, ViewContainerRef } from '@angular/core';
+import { ComponentRef, Injectable, Renderer2, RendererFactory2, ViewContainerRef } from '@angular/core';
 import { Control } from '../interfaces/control.interface';
 import { CreationArgs } from '../interfaces/creation-args.interface';
 import { ExistingComponent } from '../interfaces/existing-component.interface';
@@ -10,6 +10,7 @@ export class DynamicComponentService {
 
   private existingComponents: ExistingComponent[] = [];
   private renderer: Renderer2;
+  private dashboardContainer!: ViewContainerRef;
 
   constructor(rendererFactory: RendererFactory2) {
     this.renderer = rendererFactory.createRenderer(null, null);
@@ -27,22 +28,24 @@ export class DynamicComponentService {
     component: Control,
     args?: CreationArgs
     ): ComponentRef<any> | null {
+      this.dashboardContainer = locationToInsert;
 
       // Check to see if component already exists
       for(let i = 0; i < this.existingComponents.length; i++) {
-        if (this.existingComponents[i].name === component.componentName )
+        if (this.existingComponents[i].name === component.componentType.name) {
           return null;
+        }
       }
 
       const componentRef: ComponentRef<any> = locationToInsert.createComponent(component.componentType);
       componentRef.instance.viewRef = componentRef;
       const newComponent: ExistingComponent = {
-        name: component.componentName,
+        name: componentRef.componentType.name,
         elRef: componentRef
       }
       this.existingComponents.push(newComponent);
       componentRef.onDestroy( () => {
-        this.destroyComponent(componentRef)
+        this.destroyComponent(componentRef);
       });
       if (args) this.addProperties(componentRef, args);
 
@@ -61,10 +64,15 @@ export class DynamicComponentService {
       (existingComponent: ExistingComponent) => existingComponent.name === componentName
     );
 
-    if (!(this.existingComponents.splice(existingIndex, 1)[0])) return false;
+    const removedComponent = this.existingComponents.splice(existingIndex, 1)[0];
+    if (removedComponent) return false;
     componentRef.destroy();
 
     return true;
+  }
+
+  moveToTop(componentRef: ComponentRef<any>): void {
+    this.dashboardContainer.move(componentRef.hostView, this.dashboardContainer.length - 1);
   }
 
 /**
@@ -73,7 +81,7 @@ export class DynamicComponentService {
  * @returns string representation of componentType
  */
   private getComponentName(componentRef: ComponentRef<any>): string {
-    return componentRef.toString();
+    return componentRef.componentType.name;
   }
 
 
@@ -84,15 +92,7 @@ export class DynamicComponentService {
    */
   private addProperties(componentRef: ComponentRef<any>, args: CreationArgs): void {
 
-    const nativeElement = componentRef.location.nativeElement.querySelector('.container');
-
-    // console.log('~~ Inside addProperties ~~');
-    // console.log()
-    // console.log('~~ Native Element ~~');
-    // console.log(nativeElement);
-    // console.log()
-    // console.log('~~ Passed-in Args ~~');
-    // console.log(args);
+    const nativeElement = componentRef.location.nativeElement;
 
     try {
 

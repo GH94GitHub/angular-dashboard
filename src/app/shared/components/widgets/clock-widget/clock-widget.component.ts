@@ -2,6 +2,7 @@ import { Component, Inject, OnInit, ViewContainerRef } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { Observable, interval, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { DynamicComponentService } from 'src/app/shared/services/dynamic-component.service';
 import { DynamicComponent } from '../../../interfaces/dynamic-component.interface';
 
 @Component({
@@ -22,9 +23,10 @@ export class ClockWidgetComponent extends DynamicComponent implements OnInit {
 
   constructor(
     private viewContainer: ViewContainerRef,
-    @Inject(MessageService) messageService: MessageService
+    messageService: MessageService,
+    dynamicComponentService: DynamicComponentService
   ) {
-    super(messageService);
+    super(messageService, dynamicComponentService);
   }
 
   ngOnInit(): void {

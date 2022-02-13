@@ -5,5 +5,16 @@
   [ngStyle]="styles"
   >
   <app-handle (exit)="destroySelf()" cdkDragHandle>Weather</app-handle>
-  <p>weather-widget works!</p>
+  <div class="component-content" fxLayout="row" *ngIf="permissionGranted; else permissionDenied">
+    <img [src]="weather.icon" alt="Current weather icon" width="100px" height="100px">
+    <div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="5px">
+      <span>{{ weather.city }} as of {{ weather.time }}</span>
+      <span>{{ weather.temp.now }}&deg;F {{ weather.weather }}</span>
+      <span>Feels like {{ weather.temp.feelsLike }}&deg;F</span>
+      <span>Wind: {{ weather.wind.speed }}mph {{ weather.wind.direction }}</span>
+    </div>
+  </div>
+  <ng-template #permissionDenied>
+
+  </ng-template>
 </div>

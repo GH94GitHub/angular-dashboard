@@ -1,9 +1,10 @@
 export interface Weather {
   city: string,
+  time: string,
   weather: string,
+  icon: string,
   temp: Temperature,
   wind: Wind,
-  icon: string
 }
 
 interface Wind {
@@ -14,7 +15,5 @@ interface Wind {
 interface Temperature {
   now: number,
   feelsLike: number,
-  min: number,
-  max: number,
   humidity: number
 }
