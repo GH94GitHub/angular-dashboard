@@ -21,10 +21,13 @@
     "@angular/platform-browser": "~13.2.2",
     "@angular/platform-browser-dynamic": "~13.2.2",
     "@angular/router": "~13.2.2",
+    "@types/uuid": "^8.3.4",
+    "generate-unique-id": "^2.0.1",
     "primeicons": "^5.0.0",
     "primeng": "^13.1.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.1.0",
+    "uuid": "^8.3.2",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {

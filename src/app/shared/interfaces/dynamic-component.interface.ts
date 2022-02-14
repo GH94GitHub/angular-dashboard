@@ -12,6 +12,7 @@ export abstract class DynamicComponent{
     'max-width'?: string,
     'height': string,
     'width': string
+    'z-index'?: number
   };
   constructor(
     protected messageService: MessageService,
@@ -19,18 +20,7 @@ export abstract class DynamicComponent{
   ) {}
 
   @HostListener('mousedown', ['$event']) onClick($event: any): void {
-    // If handle button is clicked emit the event
-      if (
-        ($event.target.className.includes('mat-button-wrapper') &&
-        $event.path[1].className.includes('exit-button') ||
-        $event.target.className.includes('exit-button'))
-        &&
-        $event.target.innerText === "X"
-      ) {}
-      else
-        setTimeout(() => {
-          this.dynamicComponentService.moveToTop(this.viewRef);
-        }, 100);
+    this.dynamicComponentService.moveToTop(this.viewRef);
   }
 
   /**

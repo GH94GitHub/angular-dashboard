@@ -44,6 +44,7 @@ export class DynamicComponentService {
         elRef: componentRef
       }
       this.existingComponents.push(newComponent);
+      this.moveToTop(componentRef);
       componentRef.onDestroy( () => {
         this.destroyComponent(componentRef);
       });
@@ -72,7 +73,22 @@ export class DynamicComponentService {
   }
 
   moveToTop(componentRef: ComponentRef<any>): void {
-    this.dashboardContainer.move(componentRef.hostView, this.dashboardContainer.length - 1);
+    const componentToMove = componentRef.location.nativeElement.querySelector('.component-container');
+    if(componentToMove.className.includes('on-top')) return;
+
+    for(let i = 0; i < this.existingComponents.length; i++) {
+      const elRef = this.existingComponents[i].elRef.location.nativeElement.querySelector('.component-container');
+      this.renderer.removeClass(elRef, 'on-top');
+
+      if (elRef.style.zIndex > 0)
+        elRef.style.zIndex -= 1;
+
+      console.log('inside moveToTop; viewRef')
+      console.log(elRef);
+    }
+
+    this.renderer.addClass(componentToMove, 'on-top');
+    componentToMove.style.zIndex = this.existingComponents.length;
   }
 
 /**

@@ -5,7 +5,7 @@
     </mat-expansion-panel-header>
     <ul class="link-group">
       <li *ngFor="let component of toArray(group.value)">
-        <button matRipple [matRippleColor]="rippleColor" (click)="emitCreateComponent(component)">{{component.componentName}}</button>
+        <button matRipple [matRippleColor]="rippleColor" (click)="emitCreateComponent(component)" tabindex="-1">{{component.componentName}}</button>
       </li>
     </ul>
   </mat-expansion-panel>
