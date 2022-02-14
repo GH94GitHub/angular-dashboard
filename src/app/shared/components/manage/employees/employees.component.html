@@ -1,0 +1,34 @@
+<div
+  cdkDrag
+  cdkDragBoundary=".dashboard-container"
+  class="component-container"
+  [ngStyle]="styles"
+  >
+  <app-handle cdkDragHandle class="component-handle" (exit)="destroySelf()">Manage Employees</app-handle>
+  <div class="component-content" fxLayout="column">
+    <button mat-button>Add Employee</button>
+    <p-table [value]="employees">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Name</th>
+          <th>Title</th>
+          <th></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-emp>
+        <tr>
+          <td>{{ emp.firstName }} {{ emp.lastName }}</td>
+          <td>{{ emp.title }}</td>
+          <td>
+            <button mat-icon-button>
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button>
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

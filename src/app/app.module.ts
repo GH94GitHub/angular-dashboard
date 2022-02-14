@@ -28,7 +28,9 @@ import { MatRippleModule } from '@angular/material/core';
 
 /* PrimeNG UI*/
 import { ToastModule } from 'primeng/toast';
+import { TableModule } from 'primeng/table';
 import { MessageService } from 'primeng/api';
+import { EmployeesComponent } from './shared/components/manage/employees/employees.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +40,7 @@ import { MessageService } from 'primeng/api';
     ClockWidgetComponent,
     HandleComponent,
     WeatherWidgetComponent,
+    EmployeesComponent,
   ],
   imports: [
     BrowserModule,
@@ -54,7 +57,8 @@ import { MessageService } from 'primeng/api';
     MatExpansionModule,
     MatRippleModule,
     ToastModule,
-    HttpClientModule
+    HttpClientModule,
+    TableModule
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]
