@@ -82,9 +82,6 @@ export class DynamicComponentService {
 
       if (elRef.style.zIndex > 0)
         elRef.style.zIndex -= 1;
-
-      console.log('inside moveToTop; viewRef')
-      console.log(elRef);
     }
 
     this.renderer.addClass(componentToMove, 'on-top');
