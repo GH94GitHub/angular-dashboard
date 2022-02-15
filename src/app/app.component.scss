@@ -1,6 +1,8 @@
 @import './global-variables.scss';
 
+
 ::ng-deep {
+
   .component-container {
     position: absolute;
     background-color: $component-bg-color;
@@ -8,19 +10,38 @@
     box-shadow: rgba(0, 0, 0, 0.2) 3px 3px 7px 5px;
     overflow-y: auto;
   }
+
   .component-content {
     padding: 5px 10px;
+    overflow: auto;
   }
+
   .component-handle {
-    background-color: $component-handle-bg-color;
+    background-color: $accent-color;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     cursor: move;
   }
+
   .exit-button {
     min-width: unset !important;
     line-height: unset !important;
     padding: 5px 10px !important;
     font-size: large;
+  }
+
+  .mat-raised-button {
+    background-color: $button-color;
+  }
+  .mat-edit-icon {
+    color: rgba(0, 114, 0, 0.6);
+  }
+
+  .mat-delete-icon {
+    color: rgba(107, 1, 1, 0.6);
+  }
+
+  .mat-dialog-container {
+    background-color: rgb(191, 221, 255);
   }
 }

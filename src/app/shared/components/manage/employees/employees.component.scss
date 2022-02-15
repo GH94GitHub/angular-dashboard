@@ -1,3 +1,52 @@
-td {
-  padding: 10px
+@import '../../../../global-variables.scss';
+
+.mat-raised-button {
+  background-color: #aaaa8b;
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+}
+
+:host ::ng-deep {
+
+  .p-datatable-header {
+    background-color: transparent !important;
+    padding: 10px;
+
+    input {
+      padding-left: 40px;
+      height: 0;
+      width: 185px;
+      background-color: rgba(105, 172, 186, 0.2);
+    }
+  }
+
+  table {
+
+    border-collapse: collapse;
+
+    thead tr {
+
+      th {
+        background-color: transparent !important;
+        padding: 10px !important;
+        text-align: left;
+      }
+    }
+
+    tbody tr {
+
+      background: transparent !important;
+
+      &:nth-of-type(odd) {
+        background-color: rgb(170 170 146 / 20%);
+      }
+
+      td {
+        padding: 0 10px !important;
+        border-width: 1px 1px 0 1px;
+        border-color: #bbb;
+      }
+    }
+  }
 }
