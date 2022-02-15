@@ -3,15 +3,23 @@
   cdkDragBoundary=".dashboard-container"
   class="component-container"
   [ngStyle]="styles"
+  fxLayout="column"
   >
   <app-handle cdkDragHandle class="component-handle" (exit)="destroySelf()">Manage Employees</app-handle>
-  <div class="component-content" fxLayout="column">
-    <button mat-button>Add Employee</button>
-    <p-table [value]="employees">
+  <div class="component-content">
+    <p-table #dt [value]="employees" [filterDelay]="0" [globalFilterFields]="['firstName', 'lastName', 'title']" [rowHover]="true">
+      <ng-template pTemplate="caption">
+        <div fxLayoutAlign="end">
+          <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Search Employee" />
+          </span>
+        </div>
+      </ng-template>
       <ng-template pTemplate="header">
         <tr>
-          <th>Name</th>
-          <th>Title</th>
+          <th pSortableColumn="firstName">Name <p-sortIcon field="firstName"></p-sortIcon></th>
+          <th pSortableColumn="title">Title <p-sortIcon field="title"></p-sortIcon></th>
           <th></th>
         </tr>
       </ng-template>
@@ -21,14 +29,15 @@
           <td>{{ emp.title }}</td>
           <td>
             <button mat-icon-button>
-              <mat-icon>edit</mat-icon>
+              <mat-icon class="mat-edit-icon">edit</mat-icon>
             </button>
-            <button mat-icon-button>
-              <mat-icon>delete</mat-icon>
+            <button mat-icon-button (click)="deleteEmployee(emp)">
+              <mat-icon class="mat-delete-icon">delete</mat-icon>
             </button>
           </td>
         </tr>
       </ng-template>
     </p-table>
   </div>
+  <button mat-raised-button color="$secondary-color" (click)="addEmployee()">Add Employee</button>
 </div>
