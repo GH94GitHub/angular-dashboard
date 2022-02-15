@@ -25,12 +25,19 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatRippleModule } from '@angular/material/core';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
 
 /* PrimeNG UI*/
 import { ToastModule } from 'primeng/toast';
 import { TableModule } from 'primeng/table';
 import { MessageService } from 'primeng/api';
 import { EmployeesComponent } from './shared/components/manage/employees/employees.component';
+import { ConfirmDialogComponent } from './shared/components/dialogs/confirm-dialog/confirm-dialog.component';
+import { InputTextModule } from 'primeng/inputtext';
+import { AddEmployeeComponent } from './shared/components/dialogs/add-employee/add-employee.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +48,8 @@ import { EmployeesComponent } from './shared/components/manage/employees/employe
     HandleComponent,
     WeatherWidgetComponent,
     EmployeesComponent,
+    ConfirmDialogComponent,
+    AddEmployeeComponent,
   ],
   imports: [
     BrowserModule,
@@ -58,7 +67,12 @@ import { EmployeesComponent } from './shared/components/manage/employees/employe
     MatRippleModule,
     ToastModule,
     HttpClientModule,
-    TableModule
+    TableModule,
+    MatDialogModule,
+    InputTextModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]
