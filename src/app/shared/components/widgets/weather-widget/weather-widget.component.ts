@@ -14,6 +14,7 @@ export class WeatherWidgetComponent extends DynamicComponent implements OnInit {
 
   weather: Weather = {} as Weather;
   windDirectionLookup: string[] = ["N","NNE","NE","ENE","E","ESE","SE","SSE","S","SSW","SW","WSW","W","WNW","NW","NNW","N"];
+  loading: boolean = true;
   permissionGranted: boolean = false;
   styles = {
     'width': 'fit-content',
@@ -47,6 +48,8 @@ export class WeatherWidgetComponent extends DynamicComponent implements OnInit {
    * @param data Contains weather information
    */
   geoSuccess(data: any): void {
+    this.permissionGranted = true;
+    this.loading = false;
     //call openWeatherApi with coords
     const params = {
       latitude: data.coords.latitude,
@@ -83,8 +86,6 @@ export class WeatherWidgetComponent extends DynamicComponent implements OnInit {
           direction: windDirection
         }
       }
-      console.log(this.weather);
-      this.permissionGranted = true;
     })
 
   }
@@ -94,6 +95,7 @@ export class WeatherWidgetComponent extends DynamicComponent implements OnInit {
    * @param data
    */
   geoFail(data: any): void {
+    this.loading = false;
     const error: PrimeNgError = {
       severity: "warn",
       summary: 'Weather',
