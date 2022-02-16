@@ -28,7 +28,7 @@
           <td>{{ emp.firstName }} {{ emp.lastName }}</td>
           <td>{{ emp.title }}</td>
           <td>
-            <button mat-icon-button>
+            <button mat-icon-button (click)="editEmployee(emp)">
               <mat-icon class="mat-edit-icon">edit</mat-icon>
             </button>
             <button mat-icon-button (click)="deleteEmployee(emp)">

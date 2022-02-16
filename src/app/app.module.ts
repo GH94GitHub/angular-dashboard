@@ -37,7 +37,7 @@ import { MessageService } from 'primeng/api';
 import { EmployeesComponent } from './shared/components/manage/employees/employees.component';
 import { ConfirmDialogComponent } from './shared/components/dialogs/confirm-dialog/confirm-dialog.component';
 import { InputTextModule } from 'primeng/inputtext';
-import { AddEmployeeComponent } from './shared/components/dialogs/add-employee/add-employee.component';
+import { EmployeeDialogComponent } from './shared/components/dialogs/employee/employee-dialog.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +49,7 @@ import { AddEmployeeComponent } from './shared/components/dialogs/add-employee/a
     WeatherWidgetComponent,
     EmployeesComponent,
     ConfirmDialogComponent,
-    AddEmployeeComponent,
+    EmployeeDialogComponent
   ],
   imports: [
     BrowserModule,

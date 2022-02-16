@@ -6,7 +6,8 @@ import { DynamicComponentService } from '../../../services/dynamic-component.ser
 import { MessageService } from 'primeng/api';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../dialogs/confirm-dialog/confirm-dialog.component';
-import { AddEmployeeComponent } from '../../dialogs/add-employee/add-employee.component';
+import { EmployeeDialogComponent } from '../../dialogs/employee/employee-dialog.component';
+import { isEqual } from 'underscore';
 
 @Component({
   selector: 'app-employees',
@@ -67,7 +68,7 @@ export class EmployeesComponent extends DynamicComponent implements OnInit {
   }
 
   addEmployee(): void {
-    const dialogRef = this.dialog.open(AddEmployeeComponent);
+    const dialogRef = this.dialog.open(EmployeeDialogComponent);
 
     dialogRef.afterClosed().subscribe( employee => {
 
@@ -80,10 +81,43 @@ export class EmployeesComponent extends DynamicComponent implements OnInit {
         this.employees = newArrayRef;
         this.messageService.add({
           severity: 'success',
-          detail: 'Added',
-          summary: `Successfully added ${employee.firstName} ${employee.lastName}: ${employee.title}`
+          summary: 'Added',
+          detail: `Successfully added ${employee.firstName} ${employee.lastName}: ${employee.title}`
         });
 
+      }
+    })
+  }
+
+  editEmployee(emp: Employee): void {
+    const dialogRef = this.dialog.open(EmployeeDialogComponent, {
+      data: {
+        employee: emp
+      }
+    });
+
+    dialogRef.afterClosed().subscribe( employee => {
+
+      if (employee && !isEqual(employee, emp)) {
+
+        const updatedEmployee = this.empService.updateEmployee(emp.id, employee);
+
+        if(updatedEmployee) {
+          const newArrayRef = Array(...this.employees);
+
+          const indexToChange = newArrayRef.findIndex( e => {
+            if (e.id === emp.id) return true;
+            return;
+          });
+          newArrayRef[indexToChange] = employee;
+
+          this.employees = newArrayRef;
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Updated',
+            detail: `Successfully updated ${employee.firstName} ${employee.lastName}`
+          })
+        }
       }
     })
   }
