@@ -30,23 +30,9 @@ export class DynamicComponentService {
     ): ComponentRef<any> | null {
       this.dashboardContainer = locationToInsert;
 
-      console.log('~~ Testing if same... ~~');
       // Check to see if component already exists
       for(let i = 0; i < this.existingComponents.length; i++) {
-        console.log('');
-        console.log('~~~ Inside Loop ~~~');
-        console.log('this.existingComponents[i].name');
-        console.log(this.existingComponents[i].name);
-        console.log('');
-        console.log('component.componentName');
-        console.log(component.componentName);
-        console.log('');
-        console.log('Expression: this.existingComponents[i].name === component.componentName');
-        console.log(this.existingComponents[i].name === component.componentName);
-        console.log('');
         if (this.existingComponents[i].name === component.componentName) {
-          console.log('~~~~~~~TRUE - Exists Already ~~~~~~~');
-          console.log('');
           return null;
         }
       }
