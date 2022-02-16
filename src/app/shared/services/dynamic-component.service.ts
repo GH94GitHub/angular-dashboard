@@ -30,9 +30,23 @@ export class DynamicComponentService {
     ): ComponentRef<any> | null {
       this.dashboardContainer = locationToInsert;
 
+      console.log('~~ Testing if same... ~~');
       // Check to see if component already exists
       for(let i = 0; i < this.existingComponents.length; i++) {
-        if (this.existingComponents[i].name === component.componentType.name) {
+        console.log('');
+        console.log('~~~ Inside Loop ~~~');
+        console.log('this.existingComponents[i].name');
+        console.log(this.existingComponents[i].name);
+        console.log('');
+        console.log('component.componentName');
+        console.log(component.componentName);
+        console.log('');
+        console.log('Expression: this.existingComponents[i].name === component.componentName');
+        console.log(this.existingComponents[i].name === component.componentName);
+        console.log('');
+        if (this.existingComponents[i].name === component.componentName) {
+          console.log('~~~~~~~TRUE - Exists Already ~~~~~~~');
+          console.log('');
           return null;
         }
       }
@@ -40,7 +54,7 @@ export class DynamicComponentService {
       const componentRef: ComponentRef<any> = locationToInsert.createComponent(component.componentType);
       componentRef.instance.viewRef = componentRef;
       const newComponent: ExistingComponent = {
-        name: componentRef.componentType.name,
+        name: component.componentName,
         elRef: componentRef
       }
       this.existingComponents.push(newComponent);
