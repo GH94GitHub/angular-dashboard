@@ -38,6 +38,7 @@ import { EmployeesComponent } from './shared/components/manage/employees/employe
 import { ConfirmDialogComponent } from './shared/components/dialogs/confirm-dialog/confirm-dialog.component';
 import { InputTextModule } from 'primeng/inputtext';
 import { EmployeeDialogComponent } from './shared/components/dialogs/employee/employee-dialog.component';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -74,7 +75,10 @@ import { EmployeeDialogComponent } from './shared/components/dialogs/employee/em
     MatSelectModule,
     MatInputModule
   ],
-  providers: [MessageService],
+  providers: [
+    MessageService,
+    {provide: LocationStrategy, useClass: HashLocationStrategy}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
