@@ -83,6 +83,7 @@ export class WeatherWidgetComponent extends DynamicComponent implements OnInit {
           direction: windDirection
         }
       }
+      console.log(this.weather);
       this.permissionGranted = true;
     })
 
