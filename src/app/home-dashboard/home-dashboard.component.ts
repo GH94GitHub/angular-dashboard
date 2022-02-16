@@ -9,6 +9,7 @@ import { DynamicComponentService } from '../shared/services/dynamic-component.se
   styleUrls: ['./home-dashboard.component.scss']
 })
 export class HomeDashboardComponent implements AfterViewInit{
+  copyRightYear: number = new Date().getFullYear();
 
   @ViewChild('sideNav') sideNav!: MatSidenav;
   @ViewChild('insertLocation', {read: ViewContainerRef})

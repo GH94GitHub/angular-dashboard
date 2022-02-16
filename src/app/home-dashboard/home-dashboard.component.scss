@@ -4,6 +4,18 @@
   z-index: 200;
 }
 
+.copy-right {
+  font-size: larger;
+  font-weight: 500;
+  position: absolute;
+  left: 20px;
+  bottom: 5px;
+  z-index: 0;
+
+  a:link, a:visited {
+    color: $link-color;
+  }
+}
 .mat-drawer-container {
   background: transparent;
   position: absolute;
