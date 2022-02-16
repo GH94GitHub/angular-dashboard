@@ -19,7 +19,7 @@ export class EmployeesComponent extends DynamicComponent implements OnInit {
   styles = {
     width: 'fit-content',
     height: 'fit-content',
-    'max-height': '600px'
+    'max-height': '500px'
   };
 
   constructor(
@@ -85,12 +85,6 @@ export class EmployeesComponent extends DynamicComponent implements OnInit {
         });
 
       }
-      else
-        this.messageService.add({
-          severity: 'error',
-          detail: 'Failed',
-          summary: 'Failed to add employee'
-        });
     })
   }
 }
