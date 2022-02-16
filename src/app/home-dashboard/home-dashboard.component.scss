@@ -1,5 +1,9 @@
 @import '../global-variables.scss';
 
+.main-toast {
+  z-index: 200;
+}
+
 .mat-drawer-container {
   background: transparent;
   position: absolute;
