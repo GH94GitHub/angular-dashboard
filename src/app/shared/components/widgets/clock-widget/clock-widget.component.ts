@@ -17,7 +17,7 @@ export class ClockWidgetComponent extends DynamicComponent implements OnInit {
     'height': 'fit-content'
   }
   time: string = new Date().toLocaleTimeString();
-  timeStream$: Observable<any> = interval(1000).pipe(
+  timeStream$: Observable<string> = interval(1000).pipe(
     switchMap( () => of(new Date().toLocaleTimeString()))
   );
 

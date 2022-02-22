@@ -17,20 +17,17 @@ export class EmployeeService {
    */
   getAllEmployees(): Employee[] {
     return this.employees.filter( employee => {
-      return employee.active === true ? true : false;
+      return employee.active === true;
     });
   }
 
   /**
    * Gets an employee that has the id specified
-   * @param id Unique employee identifier
+   * @param empId Unique employee identifier
    * @returns The employee that matches the id or undefined
    */
-  getEmployeeById(id: string): Employee | undefined{
-    return this.employees.find( employee => {
-      if (employee.id === id) return true;
-      else return false;
-    })
+  getEmployeeById(empId: string): Employee | undefined{
+    return this.employees.find( employee => employee.id === empId )
   }
   /**
    * Adds an employee
@@ -39,25 +36,15 @@ export class EmployeeService {
    */
   createEmployee(employee: Employee): Employee | undefined {
     const existingEmployee: Employee | undefined = this.employees.find(
-      e => {
-        if (
-          e.firstName === employee.firstName &&
-          e.lastName === employee.lastName
-        ) return e
-        else return;
-      }
-    );
+      e => e.id === employee.id );
 
-    // if (existingEmployee)
-    //   confirm dialog to add another
-
-    const previousLength = this.employees.length;
-    const newLength = this.employees.push(employee);
-
-    if (!(previousLength === newLength))
-      return employee;
-    else
+    if (existingEmployee) {
       return;
+    }
+    else {
+      this.employees.push(employee);
+      return employee;
+    }
   }
 
   /**
@@ -92,14 +79,10 @@ export class EmployeeService {
    * @returns True or False if the deletion was successful
    */
   deleteEmployee(empId: string): boolean {
-    const empIndex: number = this.employees.findIndex( employee => {
-      if (empId === employee.id) return true;
-      else return;
-    });
+    const empIndex: number = this.employees.findIndex( employee => empId === employee.id );
     if (empIndex === -1) return false;
 
-    const deletedEmployee = this.employees.splice(empIndex, 1);
-    if (deletedEmployee) return true;
-    else return false;
+    this.employees.splice(empIndex, 1);
+    return true;
   }
 }

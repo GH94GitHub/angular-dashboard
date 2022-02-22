@@ -25,8 +25,7 @@ export class DynamicComponentService {
    */
   insertComponentDynamically(
     locationToInsert: ViewContainerRef,
-    component: Control,
-    args?: CreationArgs
+    component: Control
     ): ComponentRef<any> | null {
       this.dashboardContainer = locationToInsert;
 
@@ -48,8 +47,6 @@ export class DynamicComponentService {
       componentRef.onDestroy( () => {
         this.destroyComponent(componentRef);
       });
-      if (args) this.addProperties(componentRef, args);
-
       return componentRef;
   }
 
@@ -72,19 +69,28 @@ export class DynamicComponentService {
     return true;
   }
 
+  /**
+   * Gives a component the highest zIndex in relative to the other dynamic components that are created
+   *   using this service.
+   * @param componentRef The component to put on top zIndex wise
+   * @returns void
+   */
   moveToTop(componentRef: ComponentRef<any>): void {
     const componentToMove = componentRef.location.nativeElement.querySelector('.component-container');
     if(componentToMove.className.includes('on-top')) return;
 
+    // Remove 'on-top' class from all dynamically created components
     for(let i = 0; i < this.existingComponents.length; i++) {
       const elRef = this.existingComponents[i].elRef.location.nativeElement.querySelector('.component-container');
       this.renderer.removeClass(elRef, 'on-top');
 
+      // Lower every component one layer, but no less than 0 zIndex
       if (elRef.style.zIndex > 0)
         elRef.style.zIndex -= 1;
     }
 
     this.renderer.addClass(componentToMove, 'on-top');
+    //Give current component highest zIndex of other dynamic components
     componentToMove.style.zIndex = this.existingComponents.length;
   }
 
@@ -95,32 +101,5 @@ export class DynamicComponentService {
  */
   private getComponentName(componentRef: ComponentRef<any>): string {
     return componentRef.componentType.name;
-  }
-
-
-  /**
-   * Uses Renderer2 to add properties to element
-   * @param componentRef The component to add the properties to
-   * @param args Arguments specifying what to add (i.e. classes, attributes, etc.)
-   */
-  private addProperties(componentRef: ComponentRef<any>, args: CreationArgs): void {
-
-    const nativeElement = componentRef.location.nativeElement;
-
-    try {
-
-      if (args.classes) args.classes.forEach( className => this.renderer.addClass(nativeElement, className));
-      if (args.attributes) args.attributes.forEach(
-        attribute => this.renderer.setAttribute(nativeElement, attribute.name, attribute.value, attribute.namespace)
-      );
-      if (args.properties) args.properties.forEach(
-        property => this.renderer.setProperty(nativeElement, property.name, property.value)
-      );
-    }
-    catch(e) {
-
-      console.log(e);
-      throw Error('Error in adding properties with Renderer2');
-    }
   }
 }
