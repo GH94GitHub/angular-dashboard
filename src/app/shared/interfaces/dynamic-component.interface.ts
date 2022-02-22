@@ -19,7 +19,7 @@ export abstract class DynamicComponent{
     protected dynamicComponentService: DynamicComponentService
   ) {}
 
-  @HostListener('mousedown', ['$event']) onClick($event: any): void {
+  @HostListener('mousedown', ['$event']) onMousedown($event: any): void {
     this.dynamicComponentService.moveToTop(this.viewRef);
   }
 
