@@ -62,8 +62,7 @@ export class DynamicComponentService {
       (existingComponent: ExistingComponent) => existingComponent.name === componentName
     );
 
-    const removedComponent = this.existingComponents.splice(existingIndex, 1)[0];
-    if (removedComponent) return false;
+    this.existingComponents.splice(existingIndex, 1)[0];
     componentRef.destroy();
 
     return true;
