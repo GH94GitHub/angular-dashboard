@@ -13,4 +13,10 @@ describe('ControlsService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
+  it('should return controls', () => {
+    const controls = service.getControls();
+
+    expect(controls).toBeTruthy();
+  });
 });

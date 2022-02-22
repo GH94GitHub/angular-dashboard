@@ -1,4 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MessageService } from 'primeng/api';
+import { DynamicComponentService } from 'src/app/shared/services/dynamic-component.service';
+import { EmployeeService } from '../../../services/employee.service';
 
 import { EmployeesComponent } from './employees.component';
 
@@ -8,7 +12,15 @@ describe('EmployeesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EmployeesComponent ]
+      imports: [
+        MatDialogModule
+      ],
+      declarations: [ EmployeesComponent ],
+      providers: [
+        EmployeeService,
+        DynamicComponentService,
+        MessageService
+      ]
     })
     .compileComponents();
   });

@@ -1,4 +1,6 @@
+import { Renderer2, RendererFactory2 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { DynamicComponentService } from '../shared/services/dynamic-component.service';
 
 import { HomeDashboardComponent } from './home-dashboard.component';
 
@@ -8,7 +10,10 @@ describe('HomeDashboardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ HomeDashboardComponent ]
+      declarations: [ HomeDashboardComponent ],
+      providers: [
+        DynamicComponentService
+      ]
     })
     .compileComponents();
   });
@@ -18,8 +23,6 @@ describe('HomeDashboardComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
 });
+
+

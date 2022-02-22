@@ -1,4 +1,7 @@
+import { HttpClient, HttpHandler } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MessageService } from 'primeng/api';
+import { DynamicComponentService } from 'src/app/shared/services/dynamic-component.service';
 
 import { WeatherWidgetComponent } from './weather-widget.component';
 
@@ -8,7 +11,13 @@ describe('WeatherWidgetComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ WeatherWidgetComponent ]
+      declarations: [ WeatherWidgetComponent ],
+      providers: [
+        MessageService,
+        DynamicComponentService,
+        HttpHandler,
+        HttpClient
+      ]
     })
     .compileComponents();
   });
