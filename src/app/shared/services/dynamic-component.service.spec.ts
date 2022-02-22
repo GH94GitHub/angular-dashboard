@@ -60,25 +60,37 @@ describe('DynamicComponentService', () => {
     expect(service).toBeTruthy();
   });
 
-  it("service's destroy method should be called when component is destroyed", () => {
-    const mockDashboardFixture = TestBed.createComponent(MockHomeDashboardComponent);
-    mockDashboardFixture.detectChanges();
+  describe('destroyComponent()', () => {
+    let mockDashboardFixture: ComponentFixture<MockHomeDashboardComponent>;
+    let viewContainerRef: ViewContainerRef;
+    let clockControl: Control;
 
-    const viewContainerRef: ViewContainerRef = mockDashboardFixture.componentInstance.container;
+    beforeEach( () => {
 
-    const clockControl: Control = {
-      componentName: 'Clock',
-      componentType: MockClockWidgetComponent
-    }
+      clockControl = {
+        componentName: 'Clock',
+        componentType: MockClockWidgetComponent
+      }
 
-    const clockRef = service.insertComponentDynamically(viewContainerRef, clockControl);
+      mockDashboardFixture = TestBed.createComponent(MockHomeDashboardComponent);
+      mockDashboardFixture.detectChanges();
 
-    const destroyMethodSpy = spyOn<any>(service, 'destroyComponent');
+      viewContainerRef = mockDashboardFixture.componentInstance.container;
+    });
 
-    clockRef?.destroy();
-    expect(destroyMethodSpy).toHaveBeenCalled();
+    it("should be called when component is destroyed", () => {
 
+
+      const clockRef = service.insertComponentDynamically(viewContainerRef, clockControl);
+
+      const destroyMethodSpy = spyOn<any>(service, 'destroyComponent');
+
+      clockRef?.destroy();
+      expect(destroyMethodSpy).toHaveBeenCalled();
+
+    });
   });
+
 
   describe('insertComponentDynamically()', () => {
     let dashboardFixture: ComponentFixture<MockHomeDashboardComponent>;
@@ -179,6 +191,16 @@ describe('DynamicComponentService', () => {
 
 
       service.moveToTop(mockClockControl.componentRef as ComponentRef<any>);
+    });
+
+    it('should do nothing if called on a component that is already on top', () => {
+      const removeClassSpy = spyOn(service['renderer'], 'removeClass');
+      const addClassSpy = spyOn(service['renderer'], 'addClass');
+
+      service.moveToTop(mockClockControl.componentRef as ComponentRef<any>)
+
+      expect(removeClassSpy.calls.count()).toBe(0);
+      expect(addClassSpy.calls.count()).toBe(0);
     });
 
     it('should remove "on-top" class from all other elements', () => {
