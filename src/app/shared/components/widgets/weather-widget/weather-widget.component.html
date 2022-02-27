@@ -5,7 +5,7 @@
   [ngStyle]="styles"
   >
   <app-handle (exit)="destroySelf()" cdkDragHandle>Weather</app-handle>
-  <div *ngIf="!loading; else spinner">
+  <div *ngIf="doneLoading; else spinner">
     <div class="component-content" fxLayout="row" *ngIf="permissionGranted; else permissionDenied">
       <img [src]="weather.icon" alt="Current weather icon" width="100px" height="100px">
       <div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="5px">
@@ -23,7 +23,7 @@
     <mat-spinner style="padding: 10px;"></mat-spinner>
   </ng-template>
   <ng-template #permissionDenied>
-    <div class="component-content" style="width: 400px;">
+    <div class="component-content user-denied" style="width: 400px;">
       <p>For more information visit: <br>
         <a href="https://aaml.org/page/locationpermission#:~:text=It's%20located%20in%20the%20upper,permission%20before%20accessing%20your%20location." target="_blank">
           Configuring your browser's location permission settings

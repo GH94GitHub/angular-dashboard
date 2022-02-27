@@ -12,9 +12,10 @@ import { DynamicComponentService } from '../../../services/dynamic-component.ser
 })
 export class WeatherWidgetComponent extends DynamicComponent implements OnInit {
 
+  private apiUrl = "https://api.openweathermap.org/data/2.5/weather"
   weather: Weather = {} as Weather;
   windDirectionLookup: string[] = ["N","NNE","NE","ENE","E","ESE","SE","SSE","S","SSW","SW","WSW","W","WNW","NW","NNW","N"];
-  loading: boolean = true;
+  doneLoading: boolean = false;
   permissionGranted: boolean = false;
   styles = {
     'width': 'fit-content',
@@ -23,7 +24,7 @@ export class WeatherWidgetComponent extends DynamicComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    @Inject(MessageService) messageService: MessageService,
+    messageService: MessageService,
     dynamicComponentService: DynamicComponentService
     ) {
     super(messageService, dynamicComponentService);
@@ -49,7 +50,8 @@ export class WeatherWidgetComponent extends DynamicComponent implements OnInit {
    */
   geoSuccess(data: any): void {
     this.permissionGranted = true;
-    this.loading = false;
+    this.doneLoading = true;
+
     //call openWeatherApi with coords
     const params = {
       latitude: data.coords.latitude,
@@ -57,7 +59,7 @@ export class WeatherWidgetComponent extends DynamicComponent implements OnInit {
       appId: '3d26844206c4281fd979c5522632ee31'
     }
 
-    this.http.get('https://api.openweathermap.org/data/2.5/weather', {
+    this.http.get(this.apiUrl, {
       params: {
         lat: params.latitude,
         lon: params.longitude,
@@ -65,11 +67,14 @@ export class WeatherWidgetComponent extends DynamicComponent implements OnInit {
         units: 'imperial'
       }
     }).subscribe( (weatherData: any) => {
-      const windDegrees = Number(weatherData.wind.deg) % 360;
+
+      const windDegrees = weatherData.wind.deg % 360;
       const directionIndex = Math.round(windDegrees / 22.5);
       const windDirection = this.windDirectionLookup[directionIndex];
+
       const icon = `https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`;
       const time = new Date(weatherData.dt * 1000);
+
       //put result inside this.weather
       this.weather = {
         city: weatherData.name,
@@ -82,7 +87,7 @@ export class WeatherWidgetComponent extends DynamicComponent implements OnInit {
           humidity: weatherData.main.humidity
         },
         wind: {
-          speed: Math.round(weatherData.wind.speed).toString(),
+          speed: Math.round(weatherData.wind.speed),
           direction: windDirection
         }
       }
@@ -95,7 +100,7 @@ export class WeatherWidgetComponent extends DynamicComponent implements OnInit {
    * @param data
    */
   geoFail(data: any): void {
-    this.loading = false;
+    this.doneLoading = true;
     const error: PrimeNgError = {
       severity: "warn",
       summary: 'Weather',
@@ -109,7 +114,7 @@ export class WeatherWidgetComponent extends DynamicComponent implements OnInit {
     window.navigator.geolocation.getCurrentPosition(this.geoSuccess.bind(this), this.geoFail.bind(this));
   }
 
-  formatHHMM(date: Date) {
+  private formatHHMM(date: Date) {
     function z(n: number){return (n < 10 ? '0' : '') + n;}
     var h = date.getHours();
     return (h !== 12 ? z(h % 12) : '12') + ':' + z(date.getMinutes()) + ' ' + (h<12 ? 'AM' : 'PM');

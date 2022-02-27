@@ -10,41 +10,6 @@ import { DynamicComponentService } from './dynamic-component.service';
 describe('DynamicComponentService', () => {
   let service: DynamicComponentService;
 
-  @Component({
-    template: `
-      <div class="dashboard-container">
-        <div #componentsGoHere></div>
-      </div>
-    `
-  })
-  class MockHomeDashboardComponent {
-    @ViewChild('componentsGoHere', { read: ViewContainerRef} ) container!: ViewContainerRef;
-  }
-
-  @Component({
-    template: `
-    <div class="component-container">
-      This is the clock component
-    </div>`
-  })
-  class MockClockWidgetComponent {}
-
-  @Component({
-    template: `
-    <div class="component-container">
-      This is a random test component
-    </div>`
-  })
-  class MockTestComponent {}
-
-  @Component({
-    template: `
-    <div class="component-container">
-      This is a random test2 component
-    </div>`
-  })
-  class MockTest2Component {}
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
@@ -231,3 +196,38 @@ describe('DynamicComponentService', () => {
     });
   });
 });
+
+@Component({
+  template: `
+    <div class="dashboard-container">
+      <div #componentsGoHere></div>
+    </div>
+  `
+})
+class MockHomeDashboardComponent {
+  @ViewChild('componentsGoHere', { read: ViewContainerRef} ) container!: ViewContainerRef;
+}
+
+@Component({
+  template: `
+  <div class="component-container">
+    This is the clock component
+  </div>`
+})
+class MockClockWidgetComponent {}
+
+@Component({
+  template: `
+  <div class="component-container">
+    This is a random test component
+  </div>`
+})
+class MockTestComponent {}
+
+@Component({
+  template: `
+  <div class="component-container">
+    This is a random test2 component
+  </div>`
+})
+class MockTest2Component {}

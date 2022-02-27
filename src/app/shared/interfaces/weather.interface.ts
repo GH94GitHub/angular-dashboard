@@ -8,7 +8,7 @@ export interface Weather {
 }
 
 interface Wind {
-  speed: string,
+  speed: number,
   direction: string
 }
 

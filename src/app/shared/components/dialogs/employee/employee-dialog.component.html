@@ -7,13 +7,13 @@
       <!-- First Name -->
       <mat-form-field>
         <mat-label>First Name</mat-label>
-        <input matInput formControlName="firstName" placeholder="Enter First Name">
+        <input matInput formControlName="firstName" placeholder="Enter First Name" name="firstName">
       </mat-form-field>
 
       <!-- Last Name -->
       <mat-form-field>
         <mat-label>Last Name</mat-label>
-        <input matInput formControlName="lastName" placeholder="Enter Last Name">
+        <input matInput formControlName="lastName" placeholder="Enter Last Name" name="lastName">
       </mat-form-field>
     </div>
 
@@ -22,13 +22,13 @@
       <!-- Salary -->
       <mat-form-field>
         <mat-label>Salary</mat-label>
-        <input matInput formControlName="salary" placeholder="Enter Salary">
+        <input matInput formControlName="salary" placeholder="Enter Salary" name="salary">
       </mat-form-field>
 
       <!-- Title -->
       <mat-form-field>
         <mat-label>Title</mat-label>
-        <mat-select formControlName="title">
+        <mat-select formControlName="title" name="title">
           <mat-option [value]="undefined">-- Select Title --</mat-option>
           <mat-option *ngFor="let title of titles" [value]="title">
             {{ title }}

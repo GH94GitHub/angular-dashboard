@@ -32,7 +32,7 @@ export class EmployeeDialogComponent implements OnInit {
         lastName: [this.isNew ? '' : this.data.employee.lastName, Validators.compose([Validators.required, Validators.pattern(/[a-z]/i)])],
         salary: [this.isNew ? '' : this.data.employee.salary, Validators.compose([Validators.required, Validators.pattern(/^(\$|)([1-9]\d{0,2}(\,\d{3})*|([1-9]\d*))(\.\d{2})?$/)])],
         title: [this.isNew ? '' : this.data.employee.title, Validators.required]
-      })
+      });
     }
 
   returnEmployee(): void {
