@@ -37,11 +37,6 @@ export class SidenavLinksComponent implements OnInit {
    * @returns
    */
   toArray(object: any): Array<Control> {
-    console.log('Inside toArray');
-    console.log(object);
-    console.log('After Array.from()');
-    console.log(Array.from(object));
-
     return Array.from(object);
   }
 
