@@ -43,7 +43,6 @@ describe('ConfirmDialogComponent', () => {
   it('should bind to the view correctly', () => {
     let h2El = fixture.debugElement.query(By.css('h2.mat-dialog-title'));
     let matDialogContentEl = fixture.debugElement.query(By.css('.mat-dialog-content'));
-    console.log(matDialogContentEl);
 
     expect(h2El.nativeElement.innerText)
       .toBe('Delete User');
