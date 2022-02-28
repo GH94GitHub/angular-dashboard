@@ -33,19 +33,17 @@ export class SidenavLinksComponent implements OnInit {
 
   /**
    * Helper used by the view to create an iterable for ngForOf
-   * @param object <unkown> object passed from view
+   * @param object <unknown> object passed from view
    * @returns
    */
   toArray(object: any): Array<Control> {
+    console.log('Inside toArray');
+    console.log(object);
+    console.log('After Array.from()');
+    console.log(Array.from(object));
+
     return Array.from(object);
   }
 
-  //!Testing//
-  log(value: any): void {
-    console.log('~~ type ~~')
-    console.log(typeof value);
-    console.log('~~ value ~~')
-    console.log(value);
-  }
 
 }
