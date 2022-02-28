@@ -44,7 +44,7 @@ export class HomeDashboardComponent implements AfterViewInit{
     if(componentRef) this.sideNav.close();
   }
 
-  openNav(): void {
+  toggleNav(): void {
     this.sideNav.toggle();
   }
 }
