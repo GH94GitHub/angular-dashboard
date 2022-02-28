@@ -1,22 +1,21 @@
 import { ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
-import { HarnessEnvironment, HarnessLoader } from '@angular/cdk/testing';
+import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 
 import { MatInputHarness } from '@angular/material/input/testing';
 import { MatSelectHarness } from '@angular/material/select/testing';
 
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {  MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInput, MatInputModule } from '@angular/material/input';
+import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { TITLES } from 'src/app/shared/interfaces/employee.interface';
 import { EmployeeDialogComponent } from './employee-dialog.component';
 import { Employee } from '../../../interfaces/employee.interface';
-import { first } from 'underscore';
 
-fdescribe('EmployeeDialogComponent', () => {
+describe('EmployeeDialogComponent', () => {
   let component: EmployeeDialogComponent;
   let fixture: ComponentFixture<EmployeeDialogComponent>;
 
@@ -79,7 +78,7 @@ fdescribe('EmployeeDialogComponent', () => {
     });
   });
 
-  fdescribe('When updating an employee', () => {
+  describe('When updating an employee', () => {
 
     let mockData: any;
     let matInputs: MatInputHarness[];
