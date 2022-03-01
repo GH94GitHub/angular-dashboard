@@ -111,10 +111,6 @@ describe('EmployeeService', () => {
 
       expect(updatedEmployee).toBeUndefined();
     });
-
-    it('should rethrow error if not "break"', () => {
-
-    })
   });
 
   describe('getEmployeeById()', () => {

@@ -24,10 +24,12 @@ describe('EmployeeDialogComponent', () => {
   let dialogRefSpy: {
     close: jasmine.Spy
   };
+  let matDataSpy: jasmine.Spy;
 
   beforeEach(async () => {
 
     dialogRefSpy = jasmine.createSpyObj('MatDialogRef', ['close']);
+    matDataSpy = jasmine.createSpy('MAT_DIALOG_DATA').and.returnValue({});
 
     await TestBed.configureTestingModule({
       declarations: [ EmployeeDialogComponent ],
@@ -43,7 +45,7 @@ describe('EmployeeDialogComponent', () => {
       providers: [
         FormBuilder,
         { provide: MatDialogRef, useValue: dialogRefSpy },
-        { provide: MAT_DIALOG_DATA, useValue: {} }
+        { provide: MAT_DIALOG_DATA, useValue: matDataSpy }
       ]
     })
     .compileComponents();
@@ -58,23 +60,51 @@ describe('EmployeeDialogComponent', () => {
     it('should create', () => {
       expect(component).toBeTruthy();
     });
-  })
+  });
 
   describe('When adding new employee', () => {
+    const employeeFromForm: Partial<Employee> = {
+      firstName: 'John',
+      lastName: 'Jingle',
+      salary: 67000,
+      title: 'Supervisor'
+    };
+
+    let matInputs: MatInputHarness[];
+    let matSelect: MatSelectHarness;
+
 
     beforeEach(() => {
       fixture = TestBed.createComponent(EmployeeDialogComponent);
       component = fixture.componentInstance;
       component.titles = TITLES;
-      fixture.detectChanges();
+
+        fixture.detectChanges();
+    });
+
+    beforeEach( async() => {
+      loader = TestbedHarnessEnvironment.loader(fixture);
+      matInputs = await loader.getAllHarnesses(MatInputHarness);
+      matSelect = await loader.getHarness(MatSelectHarness);
     });
 
     it('#returnEmployee() should create new employee', () => {
+      component.employeeForm.setValue(employeeFromForm);
+      component.returnEmployee();
 
+      expect(component['dialogRef'].close).toHaveBeenCalledOnceWith(
+        jasmine.objectContaining(employeeFromForm)
+      );
+      expect(component['dialogRef'].close).toHaveBeenCalledOnceWith(
+        jasmine.objectContaining( { id: jasmine.anything() } )
+      )
     });
 
-    it('Inputs should be empty', () => {
-
+    it('Inputs should be empty', async() => {
+      matInputs.forEach( async harness => {
+        expect(await harness.getValue()).toBe('');
+      });
+      expect(await matSelect.getValueText()).toBe('');
     });
   });
 
@@ -83,6 +113,13 @@ describe('EmployeeDialogComponent', () => {
     let mockData: any;
     let matInputs: MatInputHarness[];
     let matSelect: MatSelectHarness;
+
+    const updatedEmployee: Partial<Employee> = {
+      firstName: 'updatedEmployee',
+      lastName: 'updatedLastName',
+      salary: 42000,
+      title: 'Associate'
+    };
 
     beforeEach( async () => {
 
@@ -112,7 +149,15 @@ describe('EmployeeDialogComponent', () => {
     });
 
     it('#returnEmployee() should update the employee', () => {
+      component.employeeForm.setValue(updatedEmployee);
+      component.returnEmployee();
 
+      expect(dialogRefSpy.close).toHaveBeenCalledOnceWith(
+        jasmine.objectContaining( updatedEmployee )
+      );
+      expect(dialogRefSpy.close).toHaveBeenCalledOnceWith(
+        jasmine.objectContaining( { id: mockData.employee.id } )
+      );
     });
 
     it('firstName `input` should be populated', fakeAsync(() => {
@@ -179,8 +224,8 @@ describe('EmployeeDialogComponent', () => {
       expect(salaryValue).toBe('85000');
     }));
 
-    it('title `select` should be populated', () => {
-
+    it('title `select` should be populated', async () => {
+      expect(await matSelect.getValueText()).toBe(mockData.employee.title);
     });
   });
 

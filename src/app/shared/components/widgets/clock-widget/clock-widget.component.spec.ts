@@ -4,6 +4,7 @@ import { DynamicComponentService } from 'src/app/shared/services/dynamic-compone
 
 import { ClockWidgetComponent } from './clock-widget.component';
 import { TestScheduler } from 'rxjs/testing';
+import { Component } from '@angular/core';
 
 describe('ClockWidgetComponent', () => {
   let component: ClockWidgetComponent;
@@ -11,7 +12,10 @@ describe('ClockWidgetComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ClockWidgetComponent ],
+      declarations: [
+        ClockWidgetComponent,
+        MockHandleComponent
+       ],
       providers: [
         MessageService,
         DynamicComponentService
@@ -47,3 +51,10 @@ describe('ClockWidgetComponent', () => {
 
   });
 });
+
+
+@Component({
+  selector: 'app-handle',
+  template: ''
+})
+class MockHandleComponent {}
