@@ -2,6 +2,7 @@
   "name": "my-dashboard",
   "version": "0.0.0",
   "scripts": {
+    "start": "server/index.js",
     "ng": "ng",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
@@ -26,6 +27,7 @@
     "axios": "^0.26.1",
     "generate-unique-id": "^2.0.1",
     "lodash": "^4.17.21",
+    "path": "^0.12.7",
     "primeicons": "^5.0.0",
     "primeng": "^13.1.1",
     "rxjs": "~6.6.0",
