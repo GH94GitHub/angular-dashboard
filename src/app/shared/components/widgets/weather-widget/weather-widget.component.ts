@@ -4,6 +4,7 @@ import { DynamicComponent, PrimeNgError } from '../../../interfaces/dynamic-comp
 import { Weather } from '../../../interfaces/weather.interface';
 import { MessageService } from 'primeng/api';
 import { DynamicComponentService } from '../../../services/dynamic-component.service';
+import { WeatherService } from 'src/app/shared/services/weather.service';
 
 @Component({
   selector: 'app-weather-widget',
@@ -12,7 +13,6 @@ import { DynamicComponentService } from '../../../services/dynamic-component.ser
 })
 export class WeatherWidgetComponent extends DynamicComponent implements OnInit {
 
-  private apiUrl = "https://api.openweathermap.org/data/2.5/weather"
   weather: Weather = {} as Weather;
   windDirectionLookup: string[] = ["N","NNE","NE","ENE","E","ESE","SE","SSE","S","SSW","SW","WSW","W","WNW","NW","NNW","N"];
   doneLoading: boolean = false;
@@ -23,9 +23,9 @@ export class WeatherWidgetComponent extends DynamicComponent implements OnInit {
   }
 
   constructor(
-    private http: HttpClient,
     messageService: MessageService,
-    dynamicComponentService: DynamicComponentService
+    dynamicComponentService: DynamicComponentService,
+    private weatherService: WeatherService
     ) {
     super(messageService, dynamicComponentService);
   }
@@ -50,49 +50,40 @@ export class WeatherWidgetComponent extends DynamicComponent implements OnInit {
    */
   geoSuccess(data: any): void {
     this.permissionGranted = true;
-    this.doneLoading = true;
 
-    //call openWeatherApi with coords
-    const params = {
-      latitude: data.coords.latitude,
-      longitude: data.coords.longitude,
-      appId: '3d26844206c4281fd979c5522632ee31'
-    }
 
-    this.http.get(this.apiUrl, {
-      params: {
-        lat: params.latitude,
-        lon: params.longitude,
-        appid: params.appId,
-        units: 'imperial'
-      }
-    }).subscribe( (weatherData: any) => {
+    this.weatherService.getWeather(data.coords.latitude, data.coords.longitude)
+      .subscribe(weatherData => {
+        console.log(weatherData);
 
-      const windDegrees = weatherData.wind.deg % 360;
-      const directionIndex = Math.round(windDegrees / 22.5);
-      const windDirection = this.windDirectionLookup[directionIndex];
+        const windDegrees = weatherData.wind.deg % 360;
+        const directionIndex = Math.round(windDegrees / 22.5);
+        const windDirection = this.windDirectionLookup[directionIndex];
 
-      const icon = `https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`;
-      const time = new Date(weatherData.dt * 1000);
+        const icon = `https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`;
+        const time = new Date(weatherData.dt * 1000);
 
-      //put result inside this.weather
-      this.weather = {
-        city: weatherData.name,
-        time: this.formatHHMM(time),
-        weather: weatherData.weather[0].main,
-        icon: icon,
-        temp: {
-          now: Math.round(weatherData.main.temp),
-          feelsLike: Math.round(weatherData.main.feels_like),
-          humidity: weatherData.main.humidity
-        },
-        wind: {
-          speed: Math.round(weatherData.wind.speed),
-          direction: windDirection
+        //put result inside this.weather
+        this.weather = {
+          city: weatherData.name,
+          time: this.formatHHMM(time),
+          weather: weatherData.weather[0].main,
+          icon: icon,
+          temp: {
+            now: Math.round(weatherData.main.temp),
+            feelsLike: Math.round(weatherData.main.feels_like),
+            humidity: weatherData.main.humidity
+          },
+          wind: {
+            speed: Math.round(weatherData.wind.speed),
+            direction: windDirection
+          }
         }
-      }
-    })
-
+        this.doneLoading = true;
+      },
+      error => {
+        console.log(error);
+      });
   }
 
   /**
