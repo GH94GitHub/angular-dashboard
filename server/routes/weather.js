@@ -3,7 +3,7 @@ const axios = require('axios');
 
 const router = express.Router();
 
-router.get("", async (req, res) => {
+router.get("/", async (req, res) => {
   const weatherResponse = await axios.get(process.env.OPENWEATHERAPI_URL, {
     params: {
       appId: process.env.OPENWEATHERAPI_KEY,
