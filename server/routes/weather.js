@@ -18,4 +18,9 @@ router.get("/", async (req, res) => {
   return res.json(weatherResponse.data);
 });
 
+router.get("/icon", async (req, res) => {
+  // icon url: https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png
+  const currentWeatherIconStream = await axios.get(`https://openweathermap.org/img/wn/${req.query.code}@2x.png`);
+  currentWeatherIconStream.pipe(res);
+});
 module.exports = router;

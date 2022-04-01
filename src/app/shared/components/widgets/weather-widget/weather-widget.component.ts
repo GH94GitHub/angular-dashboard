@@ -58,7 +58,6 @@ export class WeatherWidgetComponent extends DynamicComponent implements OnInit {
         const directionIndex = Math.round(windDegrees / 22.5);
         const windDirection = this.windDirectionLookup[directionIndex];
 
-        const icon = `https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`;
         const time = new Date(weatherData.dt * 1000);
 
         //put result inside this.weather
@@ -66,7 +65,7 @@ export class WeatherWidgetComponent extends DynamicComponent implements OnInit {
           city: weatherData.name,
           time: this.formatHHMM(time),
           weather: weatherData.weather[0].main,
-          icon: icon,
+          icon: `/api/weather/icon?code=${weatherData.weather[0].icon}`,
           temp: {
             now: Math.round(weatherData.main.temp),
             feelsLike: Math.round(weatherData.main.feels_like),
