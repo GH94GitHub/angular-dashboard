@@ -54,8 +54,6 @@ export class WeatherWidgetComponent extends DynamicComponent implements OnInit {
 
     this.weatherService.getWeather(data.coords.latitude, data.coords.longitude)
       .subscribe(weatherData => {
-        console.log(weatherData);
-
         const windDegrees = weatherData.wind.deg % 360;
         const directionIndex = Math.round(windDegrees / 22.5);
         const windDirection = this.windDirectionLookup[directionIndex];
