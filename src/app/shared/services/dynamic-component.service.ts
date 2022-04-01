@@ -1,6 +1,5 @@
 import { ComponentRef, Injectable, Renderer2, RendererFactory2, ViewContainerRef } from '@angular/core';
 import { Control } from '../interfaces/control.interface';
-import { CreationArgs } from '../interfaces/creation-args.interface';
 import { ExistingComponent } from '../interfaces/existing-component.interface';
 
 @Injectable({
@@ -10,7 +9,6 @@ export class DynamicComponentService {
 
   private existingComponents: ExistingComponent[] = [];
   private renderer: Renderer2;
-  private dashboardContainer!: ViewContainerRef;
 
   constructor(rendererFactory: RendererFactory2) {
     this.renderer = rendererFactory.createRenderer(null, null);
@@ -27,8 +25,6 @@ export class DynamicComponentService {
     locationToInsert: ViewContainerRef,
     component: Control
     ): ComponentRef<any> | null {
-      this.dashboardContainer = locationToInsert;
-
       // Check to see if component already exists
       for(let i = 0; i < this.existingComponents.length; i++) {
         if (this.existingComponents[i].name === component.componentName) {
@@ -59,7 +55,9 @@ export class DynamicComponentService {
 
     const componentName = this.getComponentName(componentRef);
     const existingIndex = this.existingComponents.findIndex(
-      (existingComponent: ExistingComponent) => existingComponent.name === componentName
+      (existingComponent: ExistingComponent) => {
+        return componentName.indexOf(existingComponent.name) === 0 ? true : false;
+      }
     );
 
     this.existingComponents.splice(existingIndex, 1)[0];
