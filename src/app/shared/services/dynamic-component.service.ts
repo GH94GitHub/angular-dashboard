@@ -32,18 +32,18 @@ export class DynamicComponentService {
         }
       }
 
-      const componentRef: ComponentRef<any> = locationToInsert.createComponent(component.componentType);
-      componentRef.instance.viewRef = componentRef;
+      component.componentRef = locationToInsert.createComponent(component.componentType);
+      component.componentRef.instance.viewRef = component.componentRef;
       const newComponent: ExistingComponent = {
         name: component.componentName,
-        elRef: componentRef
+        elRef: component.componentRef
       }
       this.existingComponents.push(newComponent);
-      this.moveToTop(componentRef);
-      componentRef.onDestroy( () => {
-        this.destroyComponent(componentRef);
+      this.moveToTop(component.componentRef);
+      component.componentRef.onDestroy( () => {
+        this.destroyComponent(component);
       });
-      return componentRef;
+      return component.componentRef;
   }
 
   /**
@@ -51,17 +51,17 @@ export class DynamicComponentService {
    * @param componentRef
    * @returns Boolean indicating if a component was destroyed
    */
-  private destroyComponent(componentRef: ComponentRef<any>): boolean {
+  private destroyComponent(control: Control): boolean {
 
-    const componentName = this.getComponentName(componentRef);
+    const componentName = control.componentName;
     const existingIndex = this.existingComponents.findIndex(
-      (existingComponent: ExistingComponent) => {
-        return componentName.indexOf(existingComponent.name) === 0 ? true : false;
-      }
+      (existingComponent: ExistingComponent) => existingComponent.name === componentName
     );
 
     this.existingComponents.splice(existingIndex, 1)[0];
-    componentRef.destroy();
+    if (control.componentRef)
+      control.componentRef.destroy();
+    else return false;
 
     return true;
   }
@@ -89,14 +89,5 @@ export class DynamicComponentService {
     this.renderer.addClass(componentToMove, 'on-top');
     //Give current component highest zIndex of other dynamic components
     componentToMove.style.zIndex = this.existingComponents.length;
-  }
-
-/**
- * Returns the string representation of the passed in <Component>
- * @param componentType The type of component
- * @returns string representation of componentType
- */
-  private getComponentName(componentRef: ComponentRef<any>): string {
-    return componentRef.componentType.name;
   }
 }
