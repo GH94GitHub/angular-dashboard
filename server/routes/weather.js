@@ -1,5 +1,6 @@
 const express = require('express');
 const axios = require('axios');
+const fs = require('fs');
 
 const router = express.Router();
 
@@ -18,9 +19,19 @@ router.get("/", async (req, res) => {
   return res.json(weatherResponse.data);
 });
 
-router.get("/icon", async (req, res) => {
-  // icon url: https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png
-  const currentWeatherIconStream = await axios.get(`https://openweathermap.org/img/wn/${req.query.code}@2x.png`);
-  currentWeatherIconStream.pipe(res);
-});
+// router.get("/icon", (req, res) => {
+
+//   axios.get(`https://openweathermap.org/img/wn/${req.query.code}@2x.png`)
+//     .then( resp => {
+//       console.log(resp);
+
+//       console.log(resp.data);
+//       res.status(200).contentType('image/png').end(resp.data);
+//     })
+//     .catch( err => {
+//       console.log(err);
+//     });
+
+
+// });
 module.exports = router;

@@ -65,7 +65,7 @@ export class WeatherWidgetComponent extends DynamicComponent implements OnInit {
           city: weatherData.name,
           time: this.formatHHMM(time),
           weather: weatherData.weather[0].main,
-          icon: `/api/weather/icon?code=${weatherData.weather[0].icon}`,
+          icon: `https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`,
           temp: {
             now: Math.round(weatherData.main.temp),
             feelsLike: Math.round(weatherData.main.feels_like),
