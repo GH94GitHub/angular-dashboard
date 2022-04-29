@@ -8,6 +8,13 @@ const fs = require('fs');
 const weatherAPI = require('./routes/weather');
 
 const app = express();
+
+app.use(helmet.contentSecurityPolicy({
+  useDefaults: true,
+  directives: {
+    "img-src": ["'self'", "https: data:"]
+  }
+}));
 app.use(morgan('common'));
 app.use(compress());
 app.use(express.json());
