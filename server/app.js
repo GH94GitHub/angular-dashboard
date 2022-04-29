@@ -8,7 +8,6 @@ const fs = require('fs');
 const weatherAPI = require('./routes/weather');
 
 const app = express();
-app.use(helmet());
 app.use(morgan('common'));
 app.use(compress());
 app.use(express.json());
