@@ -25,6 +25,7 @@
   bottom: 0;
 
   .sidenav {
+    display: block;
     background-color: $secondary-color;
     width: 400px;
     max-width: 33%;
@@ -72,7 +73,6 @@
       width: 100%;
     }
   }
-
 }
 
 .dashboard-container {
@@ -83,5 +83,9 @@
 
   .mat-drawer-inner-container {
     display: flex !important;
+  }
+
+  mat-drawer[visibility= hidden] {
+    visibility: visible !important;
   }
 }
