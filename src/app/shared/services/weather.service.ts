@@ -7,15 +7,15 @@ import { Observable } from 'rxjs';
 })
 export class WeatherService {
 
-  private path = "/api/weather";
-
   constructor(private http: HttpClient) { }
 
   getWeather(latitude: string, longitude: string): Observable<any> {
-    return this.http.get(this.path, {
+    return this.http.get("https://api.openweathermap.org/data/2.5/weather", {
       params: {
-        latitude: latitude,
-        longitude: longitude
+        appid: "fadc79cfcafcbc2fbd5efdefc10388b1",
+        lat: latitude,
+        lon: longitude,
+        units: "imperial"
       }
     });
   }
